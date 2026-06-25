@@ -17,6 +17,8 @@
       --paper: #fffdf9;
       --valid: #15945f;
       --valid-soft: #eefbf5;
+      --gold: #ffb000;
+      --gold-soft: #fff6d8;
       --shadow: 0 18px 45px rgba(52, 16, 102, 0.16);
     }
 
@@ -120,16 +122,32 @@
       backdrop-filter: blur(8px);
     }
 
-    .student-panel label {
+    .identity-field {
       display: grid;
       gap: 5px;
-      min-width: 0;
+      width: min(360px, 100%);
+      margin-bottom: 12px;
       font-size: 0.8rem;
       font-weight: 800;
       color: rgba(255, 255, 255, 0.9);
     }
 
-    .student-panel input {
+    .case-note {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      margin-top: 12px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.94);
+      background: rgba(255, 255, 255, 0.11);
+      font-size: 0.86rem;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .identity-field input {
       width: 100%;
       min-width: 0;
       height: 42px;
@@ -144,9 +162,83 @@
       white-space: nowrap;
     }
 
-    .student-panel input:focus {
+    .identity-field input:focus {
       border-color: #fff;
       box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.24);
+    }
+
+    .badge-slot {
+      display: grid;
+      gap: 8px;
+      justify-items: center;
+      min-height: 156px;
+      padding: 11px;
+      border: 2px dashed rgba(255, 255, 255, 0.46);
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.9);
+      background:
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.12) 0 8px, rgba(255, 255, 255, 0.03) 8px 16px),
+        rgba(255, 255, 255, 0.08);
+    }
+
+    .badge-title {
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    .badge-placeholder,
+    .badge-art {
+      place-self: center;
+      width: min(156px, 100%);
+      aspect-ratio: 1;
+    }
+
+    .badge-placeholder {
+      display: grid;
+      place-items: center;
+      border: 2px dashed rgba(255, 255, 255, 0.62);
+      border-radius: 8px;
+      color: rgba(255, 255, 255, 0.88);
+      background:
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.16) 0 7px, transparent 7px 14px),
+        rgba(255, 255, 255, 0.08);
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .badge-art {
+      display: none;
+      filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.22));
+    }
+
+    .badge-status {
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: rgba(255, 255, 255, 0.9);
+      text-align: center;
+    }
+
+    .badge-slot.is-unlocked {
+      border-color: rgba(255, 255, 255, 0.74);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.32), transparent 42%),
+        linear-gradient(145deg, rgba(255, 176, 0, 0.24), rgba(255, 255, 255, 0.1));
+    }
+
+    .badge-slot.is-unlocked .badge-placeholder {
+      display: none;
+    }
+
+    .badge-slot.is-unlocked .badge-art {
+      display: block;
     }
 
     .progress-row {
@@ -367,14 +459,21 @@
       color: #9b3a00;
     }
 
-    .prompt-text {
+    .prompt-editor {
+      min-height: 114px;
       margin: 0;
+      border-color: rgba(91, 33, 182, 0.18);
       line-height: 1.36;
       font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.9);
     }
 
     .prompt-row textarea.field-control {
       min-height: 96px;
+    }
+
+    .prompt-row textarea.prompt-editor {
+      min-height: 114px;
     }
 
     .two-col {
@@ -390,6 +489,10 @@
       margin: 0;
       padding: 0;
       list-style: none;
+    }
+
+    .check-list.wide {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 
     .check-item {
@@ -424,6 +527,12 @@
 
     .rules textarea.field-control {
       min-height: 54px;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
     }
 
     .compare textarea.field-control {
@@ -554,11 +663,16 @@
     @media (max-width: 900px) {
       .hero-inner,
       .prompt-row,
-      .two-col {
+      .two-col,
+      .rules-grid {
         grid-template-columns: 1fr;
       }
 
       .term-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .check-list.wide {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -587,6 +701,10 @@
       }
 
       .term-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .check-list.wide {
         grid-template-columns: 1fr;
       }
 
@@ -629,7 +747,7 @@
         backdrop-filter: none;
       }
 
-      .student-panel label {
+      .identity-field {
         color: rgba(255, 255, 255, 0.9);
       }
 
@@ -677,18 +795,44 @@
     <header class="hero">
       <div class="hero-inner">
         <div>
+          <label class="identity-field">
+            Imię i nazwisko
+            <input id="student-name" data-save="true" autocomplete="name">
+          </label>
           <p class="brand-line">
             <span>Giganci Programowania</span>
           </p>
           <h1 id="page-title">Jak działa AI?</h1>
-          <p class="hero-copy">Uzupełniaj krótkie pola w trakcie zajęć, testuj odpowiedzi dwóch czatów i zapisz własne wnioski o dobrym promptowaniu.</p>
+          <p class="hero-copy">Dzisiaj działasz jak detektyw AI: zbierasz poszlaki, testujesz odpowiedzi dwóch czatów i zapisujesz własne wnioski o dobrym promptowaniu.</p>
+          <p class="case-note">Każda uzupełniona sekcja to kolejna poszlaka w sprawie: jak naprawdę działa AI?</p>
         </div>
 
-        <div class="student-panel" aria-label="Dane ucznia">
-          <label>
-            Imię i nazwisko
-            <input id="student-name" data-save="true" autocomplete="name">
-          </label>
+        <div class="student-panel" aria-label="Odznaka finałowa">
+          <div class="badge-slot" id="badge-slot" aria-live="polite">
+            <p class="badge-title">Odznaka finałowa</p>
+            <div class="badge-placeholder" aria-hidden="true"></div>
+            <svg class="badge-art" viewBox="0 0 180 180" role="img" aria-labelledby="badge-title badge-desc">
+              <title id="badge-title">Odznaka Detektyw AI</title>
+              <desc id="badge-desc">Złota odznaka z lupą i napisem Detektyw AI.</desc>
+              <defs>
+                <linearGradient id="badgeFill" x1="20" y1="14" x2="160" y2="166" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ffd978"/>
+                  <stop offset="0.52" stop-color="#ffb000"/>
+                  <stop offset="1" stop-color="#ff6b00"/>
+                </linearGradient>
+                <linearGradient id="lensFill" x1="56" y1="48" x2="118" y2="110" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#ffffff"/>
+                  <stop offset="1" stop-color="#e9ddff"/>
+                </linearGradient>
+              </defs>
+              <path d="M90 9l22 25 33-1 2 33 24 22-24 22-2 33-33-1-22 25-22-25-33 1-2-33L9 88l24-22 2-33 33 1L90 9z" fill="url(#badgeFill)"/>
+              <path d="M90 23l17 20 26-1 1 27 20 18-20 18-1 27-26-1-17 20-17-20-26 1-1-27-20-18 20-18 1-27 26 1 17-20z" fill="none" stroke="#fff6d8" stroke-width="5"/>
+              <circle cx="78" cy="75" r="28" fill="url(#lensFill)" stroke="#341066" stroke-width="8"/>
+              <path d="M99 96l28 28" stroke="#341066" stroke-width="12" stroke-linecap="round"/>
+              <path d="M64 65c6-8 18-10 27-4" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" opacity="0.82"/>
+            </svg>
+            <p class="badge-status" id="badge-status">Odblokujesz ją po zebraniu wszystkich poszlak.</p>
+          </div>
         </div>
 
         <div class="progress-row" aria-live="polite">
@@ -707,7 +851,7 @@
     <section class="section" aria-labelledby="terms-title">
       <div class="section-head">
         <h2 id="terms-title">1. Słownik na start</h2>
-        <p class="micro">Dodaj własne definicje.</p>
+        <p class="micro">Pierwsze poszlaki: dodaj własne definicje.</p>
       </div>
       <div class="term-grid">
         <label class="entry">
@@ -729,10 +873,31 @@
       </div>
     </section>
 
+    <section class="section" aria-labelledby="rules-title">
+      <div class="section-head">
+        <h2 id="rules-title">2. Trzy zasady dobrego promptu</h2>
+        <p class="micro">Zapisz je, gdy omawiacie dobry prompt.</p>
+      </div>
+      <div class="rules rules-grid">
+        <label class="entry">
+          <span class="entry-title"><span class="number">1</span> Konkret</span>
+          <textarea class="field-control" id="rule-1" data-check="ruleConcrete" rows="2"></textarea>
+        </label>
+        <label class="entry">
+          <span class="entry-title"><span class="number">2</span> Kontekst</span>
+          <textarea class="field-control" id="rule-2" data-check="ruleContext" rows="2"></textarea>
+        </label>
+        <label class="entry">
+          <span class="entry-title"><span class="number">3</span> Format</span>
+          <textarea class="field-control" id="rule-3" data-check="ruleFormat" rows="2"></textarea>
+        </label>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="prompts-title">
       <div class="section-head">
-        <h2 id="prompts-title">2. Testujemy prompty</h2>
-        <p class="micro">W notatce napisz, co działało lepiej i dlaczego.</p>
+        <h2 id="prompts-title">3. Testujemy prompty</h2>
+        <p class="micro">Możesz użyć przykładu albo wpisać własny dobry prompt.</p>
       </div>
 
       <div class="prompt-list">
@@ -742,7 +907,7 @@
               <strong>Prompt 1</strong>
               <button class="copy-btn" type="button" data-copy="prompt-1">Kopiuj</button>
             </div>
-            <p class="prompt-text" id="prompt-1">Podaj 5 ciekawostek o Układzie Słonecznym dla ucznia 7 klasy. Zapisz je w formie listy punktowanej. Każda ciekawostka ma mieć maksymalnie 2 zdania.</p>
+            <textarea class="field-control prompt-editor" id="prompt-1" rows="4">Podaj 5 ciekawostek o Układzie Słonecznym dla ucznia 7 klasy. Zapisz je w formie listy punktowanej. Każda ciekawostka ma mieć maksymalnie 2 zdania.</textarea>
           </div>
           <label class="entry">
             <span class="entry-title">Notatka 1</span>
@@ -756,7 +921,7 @@
               <strong>Prompt 2</strong>
               <button class="copy-btn" type="button" data-copy="prompt-2">Kopiuj</button>
             </div>
-            <p class="prompt-text" id="prompt-2">Podaj 3 najciekawsze fakty o delfinach dla ucznia szkoły podstawowej. Każdy fakt zapisz w jednym zdaniu.</p>
+            <textarea class="field-control prompt-editor" id="prompt-2" rows="4">Podaj 3 najciekawsze fakty o delfinach dla ucznia szkoły podstawowej. Każdy fakt zapisz w jednym zdaniu.</textarea>
           </div>
           <label class="entry">
             <span class="entry-title">Notatka 2</span>
@@ -770,7 +935,7 @@
               <strong>Prompt 3</strong>
               <button class="copy-btn" type="button" data-copy="prompt-3">Kopiuj</button>
             </div>
-            <p class="prompt-text" id="prompt-3">Wyjaśnij różnice między pozycją bramkarza a obrońcy dla kogoś, kto nigdy nie grał w piłkę. Użyj maks. 4 zdań.</p>
+            <textarea class="field-control prompt-editor" id="prompt-3" rows="4">Wyjaśnij różnice między pozycją bramkarza a obrońcy dla kogoś, kto nigdy nie grał w piłkę. Użyj maks. 4 zdań.</textarea>
           </div>
           <label class="entry">
             <span class="entry-title">Notatka 3</span>
@@ -782,7 +947,7 @@
 
     <section class="section compare" aria-labelledby="compare-title">
       <div class="section-head">
-        <h2 id="compare-title">3. Porównanie czatów</h2>
+        <h2 id="compare-title">4. Porównanie czatów</h2>
         <p class="micro">Wymień minimum jedną różnicę między ChatGPT i Gemini.</p>
       </div>
       <label class="entry">
@@ -791,38 +956,17 @@
       </label>
     </section>
 
-    <section class="section two-col" aria-label="Sprawdzanie faktów i zasady promptowania">
+    <section class="section" aria-labelledby="facts-title">
       <div>
         <div class="section-head">
-          <h2>4. Co warto sprawdzać samodzielnie</h2>
+          <h2 id="facts-title">5. Co warto sprawdzać samodzielnie</h2>
         </div>
-        <ul class="check-list">
+        <ul class="check-list wide">
           <li><label class="check-item"><input type="checkbox" id="fact-dates" data-check="checkbox"> Daty i liczby</label></li>
           <li><label class="check-item"><input type="checkbox" id="fact-names" data-check="checkbox"> Nazwiska i nazwy</label></li>
           <li><label class="check-item"><input type="checkbox" id="fact-stats" data-check="checkbox"> Statystyki i twarde fakty</label></li>
           <li><label class="check-item"><input type="checkbox" id="fact-links" data-check="checkbox"> Linki i źródła</label></li>
         </ul>
-      </div>
-
-      <div>
-        <div class="section-head">
-          <h2>5. Trzy zasady dobrego promptu</h2>
-          <p class="micro">Dokończ własnymi słowami.</p>
-        </div>
-        <div class="rules">
-          <label class="entry">
-            <span class="entry-title"><span class="number">1</span> Konkret</span>
-            <textarea class="field-control" id="rule-1" data-check="ruleConcrete" rows="2"></textarea>
-          </label>
-          <label class="entry">
-            <span class="entry-title"><span class="number">2</span> Kontekst</span>
-            <textarea class="field-control" id="rule-2" data-check="ruleContext" rows="2"></textarea>
-          </label>
-          <label class="entry">
-            <span class="entry-title"><span class="number">3</span> Format</span>
-            <textarea class="field-control" id="rule-3" data-check="ruleFormat" rows="2"></textarea>
-          </label>
-        </div>
       </div>
     </section>
 
@@ -838,8 +982,8 @@
     <div class="celebration-card" role="dialog" aria-modal="true" aria-labelledby="done-title">
       <div class="confetti" aria-hidden="true" id="confetti"></div>
       <div class="badge-done" aria-hidden="true">✓</div>
-      <h2 id="done-title">Karta gotowa</h2>
-      <p>Masz komplet notatek z lekcji o AI. Możesz teraz pobrać plik albo wydrukować kartę.</p>
+      <h2 id="done-title">Sprawa rozwiązana</h2>
+      <p>Masz komplet poszlak i odznakę Detektyw AI. Możesz teraz pobrać plik albo wydrukować kartę.</p>
       <button class="btn orange" type="button" id="done-download">Pobierz HTML</button>
       <button class="btn secondary" type="button" id="done-close">Zamknij</button>
     </div>
@@ -856,10 +1000,13 @@
       var requiredControls = controls;
       var progressBar = document.getElementById("progress-bar");
       var progressText = document.getElementById("progress-text");
+      var badgeSlot = document.getElementById("badge-slot");
+      var badgeStatus = document.getElementById("badge-status");
       var toast = document.getElementById("toast");
       var celebration = document.getElementById("celebration");
       var confetti = document.getElementById("confetti");
       var hasCelebrated = false;
+      var badgeUnlocked = false;
       var booting = true;
       var toastTimer = 0;
 
@@ -903,14 +1050,21 @@
         }).length;
         var total = requiredControls.length;
         var percent = total ? Math.round((valid / total) * 100) : 0;
+        var complete = total > 0 && valid === total;
         progressBar.style.width = percent + "%";
         progressText.textContent = percent + "%";
 
-        if (valid === total && !hasCelebrated && triggerCelebration && !booting) {
+        if (complete && !badgeUnlocked) {
+          badgeUnlocked = true;
+          saveData();
+        }
+
+        applyBadgeState(complete || badgeUnlocked);
+
+        if (complete && !hasCelebrated && triggerCelebration && !booting) {
           hasCelebrated = true;
           showCelebration();
         }
-
       }
 
       function gatherData() {
@@ -918,6 +1072,7 @@
         fields.forEach(function (field) {
           data[field.id] = field.type === "checkbox" ? field.checked : field.value;
         });
+        data.__badgeUnlocked = badgeUnlocked;
         return data;
       }
 
@@ -943,6 +1098,8 @@
 
         try {
           var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+          badgeUnlocked = Boolean(saved.__badgeUnlocked);
+          hasCelebrated = badgeUnlocked;
           fields.forEach(function (field) {
             if (!Object.prototype.hasOwnProperty.call(saved, field.id)) return;
             if (field.type === "checkbox") {
@@ -953,6 +1110,20 @@
           });
         } catch (error) {
           showToast("Nie udało się odczytać zapisu z przeglądarki.");
+        }
+      }
+
+      function applyBadgeState(unlocked) {
+        if (!badgeSlot) return;
+        badgeSlot.classList.toggle("is-unlocked", Boolean(unlocked));
+        badgeSlot.setAttribute(
+          "aria-label",
+          unlocked ? "Odznaka Detektyw AI odblokowana" : "Odznaka Detektyw AI zablokowana"
+        );
+        if (badgeStatus) {
+          badgeStatus.textContent = unlocked
+            ? "DETEKTYW AI"
+            : "Odblokujesz ją po zebraniu wszystkich poszlak.";
         }
       }
 
@@ -1005,7 +1176,7 @@
       function showCelebration() {
         buildConfetti();
         celebration.hidden = false;
-        showToast("Komplet. Dobra robota z promptami.");
+        showToast("Odznaka Detektyw AI odblokowana.");
       }
 
       function closeCelebration() {
@@ -1034,6 +1205,18 @@
             target.setAttribute("value", source.value);
           }
         });
+
+        var clonedBadge = clone.querySelector("#badge-slot");
+        if (clonedBadge) {
+          clonedBadge.classList.toggle("is-unlocked", badgeUnlocked);
+        }
+
+        var clonedBadgeStatus = clone.querySelector("#badge-status");
+        if (clonedBadgeStatus) {
+          clonedBadgeStatus.textContent = badgeUnlocked
+            ? "DETEKTYW AI"
+            : "Odblokujesz ją po zebraniu wszystkich poszlak.";
+        }
 
         var clonedCelebration = clone.querySelector("#celebration");
         if (clonedCelebration) {
@@ -1127,7 +1310,7 @@
         button.addEventListener("click", function () {
           var prompt = document.getElementById(button.dataset.copy);
           if (!prompt) return;
-          copyText(prompt.textContent.trim())
+          copyText((prompt.value !== undefined ? prompt.value : prompt.textContent).trim())
             .then(function () { showToast("Prompt skopiowany."); })
             .catch(function () { showToast("Nie udało się skopiować automatycznie."); });
         });
@@ -1150,6 +1333,8 @@
         fields.forEach(function (field) {
           if (field.type === "checkbox") {
             field.checked = false;
+          } else if (field.classList.contains("prompt-editor")) {
+            field.value = field.defaultValue;
           } else {
             field.value = "";
           }
@@ -1163,12 +1348,16 @@
         } catch (error) {
           return;
         }
+        badgeUnlocked = false;
+        hasCelebrated = false;
+        applyBadgeState(false);
         closeCelebration();
         updateProgress(false);
         showToast("Karta została wyczyszczona.");
       });
 
       loadData();
+      applyBadgeState(badgeUnlocked);
       controls.forEach(function (control) {
         validateControl(control, false);
       });
