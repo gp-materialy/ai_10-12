@@ -245,7 +245,7 @@
       grid-column: 1 / -1;
       display: grid;
       grid-template-columns: 1fr auto;
-      gap: 12px;
+      gap: 8px;
       align-items: center;
       padding-top: 4px;
     }
@@ -266,7 +266,7 @@
     }
 
     .progress-text {
-      min-width: 86px;
+      min-width: 48px;
       text-align: right;
       font-weight: 900;
       font-size: 0.86rem;
@@ -740,11 +740,16 @@
       .hero {
         color: #fff;
         border: 0;
+        overflow: visible;
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
 
       .student-panel {
         color: #fff;
         backdrop-filter: none;
+        break-inside: avoid;
+        page-break-inside: avoid;
       }
 
       .identity-field {
@@ -762,6 +767,26 @@
 
       .section {
         padding: 9px 0;
+      }
+
+      .section-head,
+      .entry,
+      .badge-slot,
+      .check-list li {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .badge-placeholder,
+      .badge-art {
+        width: 112px;
+        max-width: 112px;
+        height: 112px;
+      }
+
+      .badge-art {
+        overflow: visible;
+        filter: none;
       }
 
       .prompt-row,
@@ -782,6 +807,8 @@
 
       textarea.field-control {
         min-height: 64px;
+        overflow: visible;
+        resize: none;
       }
 
       .footer-note {
@@ -1009,6 +1036,7 @@
       var badgeUnlocked = false;
       var booting = true;
       var toastTimer = 0;
+      var printTextareaHeights = [];
 
       function isComplete(control) {
         if (control.type === "checkbox") {
@@ -1288,6 +1316,26 @@
         showToast("Plik HTML został przygotowany do pobrania.");
       }
 
+      function expandTextareasForPrint() {
+        if (printTextareaHeights.length > 0) {
+          return;
+        }
+
+        printTextareaHeights = Array.prototype.slice.call(document.querySelectorAll("textarea.field-control")).map(function (field) {
+          var previousHeight = field.style.height;
+          field.style.height = "auto";
+          field.style.height = Math.max(field.scrollHeight + 4, field.offsetHeight) + "px";
+          return { field: field, height: previousHeight };
+        });
+      }
+
+      function restoreTextareasAfterPrint() {
+        printTextareaHeights.forEach(function (item) {
+          item.field.style.height = item.height;
+        });
+        printTextareaHeights = [];
+      }
+
       fields.forEach(function (field) {
         var eventName = field.type === "checkbox" ? "change" : "input";
         field.addEventListener(eventName, function () {
@@ -1320,6 +1368,7 @@
       document.getElementById("done-download").addEventListener("click", downloadHtml);
       document.getElementById("print-btn").addEventListener("click", function () {
         saveData();
+        expandTextareasForPrint();
         window.print();
       });
       document.getElementById("done-close").addEventListener("click", closeCelebration);
@@ -1355,6 +1404,9 @@
         updateProgress(false);
         showToast("Karta została wyczyszczona.");
       });
+
+      window.addEventListener("beforeprint", expandTextareasForPrint);
+      window.addEventListener("afterprint", restoreTextareasAfterPrint);
 
       loadData();
       applyBadgeState(badgeUnlocked);
